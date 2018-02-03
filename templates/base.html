@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%}{% endblock %}{{ SITE_NAME }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_PATH }}/images/logo.ico"/>
+    {% block bootstrapcss %}
+    <link rel="stylesheet" href="{{ STATIC_PATH }}/css/bootstrap.min.css">
+    <link href="{{ STATIC_PATH }}/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ STATIC_PATH }}/css/animate.min.css" rel="stylesheet">
+    <link href="{{ STATIC_PATH }}/css/style.min.css" rel="stylesheet">
+    <link href="{{ STATIC_PATH }}/css/matrix-style.css" rel="stylesheet">
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    {% endblock %}
+
+    {% block extend_css %}
+    {% endblock %}
+
+
+</head>
+<body class="gray-bg">
+{% block content%}
+
+{% endblock %}
+{% block bootstrap_js %}
+    <script type="text/javascript" src="{{ STATIC_PATH }}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PATH }}/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_PATH }}/js/plugins/layer/layer.min.js"></script>
+    <!--<script src="{{ STATIC_PATH }}/js/plugins/dataTables/jquery.dataTables.js"></script>-->
+    <!--<script src="{{ STATIC_PATH }}/js/plugins/dataTables/dataTables.bootstrap.js"></script>-->
+    <script src="{{ STATIC_PATH }}/js/jquery.query-object.js"></script>
+    <!--<script src="{{ STATIC_PATH }}/js/content.min.js?v=1.0.0"></script>-->
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var page_size = jQuery.query.get('page_size') ?
+                jQuery.query.get('page_size') : 0;
+            var option = $('select[name="per_item_select"] option[value='+page_size+']');
+            option.attr('selected',true);
+        })
+    </script>
+    {% endblock bootstrap_js %}
+
+
+    {% block extend_js %}
+    {% endblock %}
+</body>
+</html>
