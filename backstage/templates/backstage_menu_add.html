@@ -31,7 +31,8 @@
                         <!--</div>-->
                     </div>
                     <div class="widget-content">
-                        <form class="form-horizontal m-t" action="/backstage_menu_add" method="post" id="commentForm" novalidate="novalidate">
+                        <form class="form-horizontal m-t" action="/backstage_menu_add/" method="post" id="commentForm" novalidate="novalidate">
+                            {% csrf_token %}
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">菜单名：</label>
                                 <div class="col-sm-6">
@@ -97,8 +98,9 @@
 
             submitHandler: function(form)
             {
-                alert(222);
-                $(form).ajaxSubmit();
+                $(form).ajaxSubmit(function(){
+                    alert(22222);
+                });
             }
         });
     });

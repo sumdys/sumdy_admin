@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 # Create your views here.
 
-from minicms.backstage.models import *
+from backstage.models import Menu
 
 # 后台管理菜单
 
@@ -22,12 +22,14 @@ def backstage_menu_add(request):
         if not menu_url:
             return JsonResponse({'code':400,'msg':'请输入地址url'})
 
-        menu = Menu()
+        menu = Menu.objects.using('backstage').filter(name=name,url=menu_url)
+        if menu:
+            return JsonResponse({'code': 400, 'msg': '菜单已存在'})
         menu.name = name
-        menu.pid = pid
+        menu.pid = pid if pid else 0
         menu.url = menu_url
-        menu.sort = sort
-        if menu.save():
+        menu.sort = int(sort)
+        if menu.save(using='backstage'):
             return JsonResponse({'code':0,'msg':'success'})
     page_name = '添加菜单'
     return render(request,'backstage_menu_add.html',{'page_name':page_name})

@@ -5,10 +5,10 @@ from django.http import HttpResponse,JsonResponse,HttpResponseRedirect
 from PIL import Image,ImageDraw,ImageFont
 # 在python3.x中，StringIO已经在io模块中了，导入方法
 from io import BytesIO
-from minicms.online.models import *
-from minicms.learn.models import *
-from minicms.learn.functions import *
-from minicms.learn.forms import *
+from online.models import *
+from learn.models import *
+from learn.functions import *
+from learn.forms import *
 
 import os,random
 # Create your views here.
