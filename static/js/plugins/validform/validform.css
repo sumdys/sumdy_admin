@@ -1,0 +1,10 @@
+.Validform_checktip{
+    font-size: 12px;
+    margin-left: 5px;
+}
+.Validform_wrong{
+    color:red;
+}
+.Validform_right{
+    color:#5bb75b;
+}

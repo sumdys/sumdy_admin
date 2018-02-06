@@ -188,3 +188,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static').replace('\\','/')
 
 STATIC_PATH = 'http://minicms.sumdy.deve'
+
+
+PAGE = 2

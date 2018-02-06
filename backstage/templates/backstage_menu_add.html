@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block extend_css %}
 <link rel="stylesheet" href="{{ STATIC_PATH }}/css/plugins/dataTables/dataTables.bootstrap.css">
-
+<link href="{{ STATIC_PATH }}/js/plugins/validform/validform.css" rel="stylesheet">
 {% endblock %}
 {% block title%}{{ page_name }}{% endblock%}
+
 {% block content %}
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -33,10 +34,11 @@
                     <div class="widget-content">
                         <form class="form-horizontal m-t" action="/backstage_menu_add/" method="post" id="commentForm" novalidate="novalidate">
                             {% csrf_token %}
+                            <input type="hidden" value="{{ data.id }}" name="menu_id" id="menu_id">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">菜单名：</label>
                                 <div class="col-sm-6">
-                                    <input id="name" name="name" minlength="2" type="text" class="form-control" >
+                                    <input id="name" name="name" value="{{ data.name }}" datatype="s2-200" nullmsg="请输入菜单名" errormsg="昵称至少2个字符" type="text" class="form-control" >
                                 </div>
                             </div>
                             <div class="form-group">
@@ -45,19 +47,21 @@
 
                                     <select class="form-control" name="pid" id="pid">
                                         <option value="">请选择</option>
+                                        <option value="2">商品分类管理</option>
                                     </select>
+
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">地址url：</label>
                                 <div class="col-sm-6">
-                                    <input id="menu_url" type="menu_url" class="form-control" name="menu_url" >
+                                    <input id="menu_url" type="menu_url" value="{{ data.url }}" datatype="*" nullmsg="请输入地址url" class="form-control" name="menu_url" >
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">排序：</label>
                                 <div class="col-sm-6">
-                                    <input id="sort" type="text" class="form-control" value="0" name="sort">
+                                    <input id="sort" type="text" datatype="n" value="{{ data.sort }}" errormsg="排序只能是整数" class="form-control" value="0" name="sort">
                                 </div>
                             </div>
                             <!---->
@@ -69,7 +73,7 @@
                             <!--</div>-->
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-3">
-                                    <button class="btn btn-primary" type="submit">提交</button>
+                                    <button class="btn btn-primary" id="btnSubmit" type="submit">提交</button>
                                     <button class="btn btn-default" type="button">取消</button>
                                 </div>
                             </div>
@@ -81,28 +85,11 @@
 
     </div>
 {% endblock %}
-{% block extend_js %}
-<script src="{{ STATIC_PATH }}/js/plugins/validate/jquery.validate.min.js"></script>
-<script src="{{ STATIC_PATH }}/js/plugins/validate/messages_zh.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $("#commentForm").validate({
-            rules:{
-                name:'required',
-                menu_url:'required'
-            },
-            messages:{
-                name:'请输入菜单名',
-                menu_url:'请输入地址url'
-            },
 
-            submitHandler: function(form)
-            {
-                $(form).ajaxSubmit(function(){
-                    alert(22222);
-                });
-            }
-        });
-    });
+{% block extend_js %}
+<script src="{{ STATIC_PATH }}/js/plugins/validform/validform_v5.3.2_min.js"></script>
+<script src="{{ STATIC_PATH }}/js/ajax_submit.js"></script>
+<script>
+
 </script>
 {% endblock %}

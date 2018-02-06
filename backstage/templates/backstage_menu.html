@@ -55,33 +55,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for item in data %}
                                 <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0
+                                    <td>{{ item.id}}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.url }}</td>
+                                    <td class="center">{{ item.create_time|date:' Y-m-d H:i:s'}}</td>
+                                    <td class="center">
+                                        <a href="/backstage_menu_info/{{ item.id }}" class="btn btn-info btn-sm">编辑</a>
+                                        <a href="/backstage_menu_delete/id/{{ item.id }}" class="btn btn-danger btn-sm">删除</a>
                                     </td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
                                 </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                         <nav aria-label="Page navigation" class="pages">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
+                            <ul class="pagination pagination-sm">
+                                {{ pagestring|safe }}
                             </ul>
                         </nav>
                     </div>

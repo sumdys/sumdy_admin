@@ -7,6 +7,7 @@ class Menu(models.Model):
     pid = models.IntegerField(default=0)
     url = models.CharField(max_length=255)
     sort = models.IntegerField(default=0)
+    level = models.IntegerField(default=0)
     create_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -15,6 +16,7 @@ class Menu(models.Model):
 
     class Meta:
         app_label = 'backstage'
+        ordering = ['-id']
 
 # 角色
 class Role(models.Model):
