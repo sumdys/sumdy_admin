@@ -49,7 +49,9 @@ def getLevelMenu():
     # print(menu)
     data =[]
     idata =subMenu = {}
-    for item in menu:
+    menu = list(menu)
+    print(menu)
+    for item in list(menu):
         r={}
         s = []
         if item['pid'] == 0:

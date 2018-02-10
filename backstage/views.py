@@ -71,7 +71,8 @@ def backstage_menu_info(request,id):
     res = getLevelMenu()
     print(res)
     menuInfo = Menu.objects.using('backstage').get(id=id)
-    pageName = '编辑菜单'
+    pageName = '编辑菜'
+
     return render(request,'backstage_menu_add.html',{'page_name':pageName,'data':menuInfo})
 
 # 后台管理角色
