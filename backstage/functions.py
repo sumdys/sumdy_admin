@@ -44,24 +44,34 @@ def pages(allPostCounts,page,pageSize=0):
     return ''.join(page_list)
 
 
-def getLevelMenu():
-    menu = Menu.objects.using('backstage').filter(level__in=(1,2)).values('id','pid','name')
-    # print(menu)
-    data =[]
-    idata =subMenu = {}
+def getBackstageMenus():
+    menu = Menu.objects.using('backstage').filter(level__in=(1,2,3)).order_by('sort').values('id','pid','name','level','url','create_time')
     menu = list(menu)
-    print(menu)
+    res = []
+    # print(menu)
     for item in list(menu):
-        r={}
-        s = []
-        if item['pid'] == 0:
+        idata = {}
+        if item['level'] == 1:
             idata['id']=item['id']
             idata['name']=item['name']
-            data.append(idata)
-        else:
-            subMenu['id']=item['id']
-            subMenu['name']=item['name']
-            s.append(subMenu)
-            r[item['pid']]=s
-            print(r)
-    # return data
+            idata['url'] = item['url']
+            idata['create_time']=item['create_time']
+            idata['submenus']=[]
+            for se in list(menu):
+                if se['pid'] == item['id']:
+                    se['thirdMenus']=[]
+                    for th in menu:
+                        if th['pid']==se['id']:
+                            se['thirdMenus'].append(th)
+                    # print(se)
+                    idata['submenus'].append(menusList(se))
+            res.append(idata)
+    return res
+
+
+def menusList(data):
+    subMenu = {}
+    if data:
+        for k,v in data.items():
+            subMenu[k]=v
+    return subMenu

@@ -54,44 +54,61 @@
                         <!--<div class="logo-element">H+-->
                         <!--</div>-->
                     </li>
+                    {% for first in menus %}
                     <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">供应链系统</span>
+                        <a href="{{ first.url }}">
+                            <i class="fa fa-bars"></i>
+                            <span class="nav-label">{{ first.name }}</span>
                             <span class="fa arrow"></span>
                         </a>
+                        {% if first.submenus %}
                         <ul class="nav nav-second-level">
+                            {% for second in first.submenus %}
+                            {% ifequal second.pid first.id %}
                             <li>
-                                <a class="J_menuItem" href="/item_type" data-index="0">商品分类管理</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="/item_template">商品模板管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span class="nav-label">系统设置</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">
-                                    <span class="nav-label">系统权限管理</span>
-                                    <span class="fa arrow"></span>
+                                <a {% ifnotequal second.url '#'%} class="J_menuItem" {% endifnotequal %} href="{{ second.url }}">
+                                    <span class="nav-label">{{ second.name }}</span>
+                                {% ifequal second.url '#'%}<span class="fa arrow"></span>{% endifequal %}
                                 </a>
                                 <ul class="nav nav-third-level">
-                                    <li>
-                                        <a class="J_menuItem" href="/backstage_menu" data-index="0">菜单管理</a>
-                                    </li>
-                                    <li>
-                                        <a class="J_menuItem" href="/backstage_role">角色管理</a>
-                                    </li>
+                                    {% for third in second.thirdMenus %}
+                                        {% ifequal third.pid second.id %}
+                                            <li>
+                                                <a class="J_menuItem" href="{{ third.url }}" data-index="0">{{ third.name }}</a>
+                                            </li>
+                                        {% endifequal %}
+                                    {% endfor %}
                                 </ul>
+                            {% endifequal %}
                             </li>
+                            {% endfor %}
                         </ul>
+                        {% endif %}
                     </li>
+                    {% endfor %}
+                    <!--<li>-->
+                        <!--<a href="#">-->
+                            <!--<i class="fa fa-home"></i>-->
+                            <!--<span class="nav-label">系统设置</span>-->
+                            <!--<span class="fa arrow"></span>-->
+                        <!--</a>-->
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a href="#">-->
+                                    <!--<span class="nav-label">系统权限管理</span>-->
+                                    <!--<span class="fa arrow"></span>-->
+                                <!--</a>-->
+                                <!--<ul class="nav nav-third-level">-->
+                                    <!--<li>-->
+                                        <!--<a class="J_menuItem" href="/backstage_menu" data-index="0">菜单管理</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a class="J_menuItem" href="/backstage_role">角色管理</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
             </div>
         </nav>

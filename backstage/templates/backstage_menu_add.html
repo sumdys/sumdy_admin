@@ -44,10 +44,16 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">菜单栏目：</label>
                                 <div class="col-sm-6">
-
                                     <select class="form-control" name="pid" id="pid">
-                                        <option value="">请选择</option>
-                                        <option value="2">商品分类管理</option>
+                                        <option value="">一级菜单</option>
+                                        {% for first in menus %}
+                                            <option value="{{ first.id }}" {% ifequal data.pid first.id %} selected {% endifequal %}>&nbsp;&nbsp;{{ first.name }}</option>
+                                            {% for second in first.submenus %}
+                                                {% ifequal first.id second.pid %}
+                                                    <option value="{{ second.id }}" {% ifequal data.pid second.id %} selected {% endifequal %} >&nbsp;&nbsp;&nbsp;&nbsp;{{ second.name }}</option>
+                                                {% endifequal %}
+                                            {% endfor %}
+                                        {% endfor %}
                                     </select>
 
                                 </div>

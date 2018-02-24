@@ -5,10 +5,9 @@ from django.conf import settings
 # Create your views here.
 
 from backstage.models import *
-import os
+
 
 # 后台管理菜单
-
 def backstage_menu(request):
     try:
         page = int(request.GET.get('page', '1'))
@@ -24,7 +23,10 @@ def backstage_menu(request):
     # 分页
     pagestring = pages(allCounts,page,pageSize)
     page_name = '菜单管理'
+    menu_list = getBackstageMenus()
+    print(menu_list)
     return render(request,'backstage_menu.html',{'page_name':page_name,'data':menu_list,'pagestring':pagestring})
+
 
 # 添加菜单
 def backstage_menu_add(request):
@@ -42,7 +44,7 @@ def backstage_menu_add(request):
             level = 1
         else:
             level = Menu.objects.using('backstage').filter(id=pid).values_list('level',flat=True)
-        menu = Menu.objects.using('backstage').filter(name=name,url=menu_url)
+        menu = Menu.objects.using('backstage').filter(name=name)
         if not menuId and menu:
             return JsonResponse({'code': 400, 'msg': '菜单已存在'})
         else:
@@ -55,25 +57,26 @@ def backstage_menu_add(request):
                 menu.pid = pid if pid else 0
                 menu.url = menu_url
                 menu.sort = int(sort)
-                menu.level = level[0]
+                menu.level = level[0]+1
+                # print(menu.level)
                 menu.save(using='backstage')
                 if menu.id:
                     return JsonResponse({'code':0,'success':'true','msg':'提交成功'})
             # except :
                 return JsonResponse({'code': 400, 'msg': '菜单已存在'})
     page_name = '添加菜单'
-    return render(request,'backstage_menu_add.html',{'page_name':page_name})
+    menus = getBackstageMenus()
+    return render(request,'backstage_menu_add.html',{'page_name':page_name,'menus':menus})
+
 
 #菜单信息
 def backstage_menu_info(request,id):
     if not id:
         return JsonResponse({'code':400,'msg':'参数不正确'})
-    res = getLevelMenu()
-    print(res)
+    menus = getBackstageMenus()
     menuInfo = Menu.objects.using('backstage').get(id=id)
     pageName = '编辑菜'
-
-    return render(request,'backstage_menu_add.html',{'page_name':pageName,'data':menuInfo})
+    return render(request,'backstage_menu_add.html',{'page_name':pageName,'data':menuInfo,'menus':menus})
 
 # 后台管理角色
 def backstage_role(request):

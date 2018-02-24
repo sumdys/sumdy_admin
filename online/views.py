@@ -9,11 +9,15 @@ from online.models import *
 from learn.models import *
 from learn.functions import *
 from learn.forms import *
+from backstage.functions import *
 
 import os,random
 # Create your views here.
 
 # 认证登录
+
+
+
 def authLogin(func):
     '''身份认证装饰器，
     :param func:
@@ -29,7 +33,8 @@ def authLogin(func):
 @authLogin
 def index(request):
     username = request.session.get('username')
-    return render(request,'online/index.html',{'username':username})
+    menus=getBackstageMenus()
+    return render(request,'online/index.html',{'username':username,'menus':menus})
 
 
 def register(request):
