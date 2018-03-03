@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from urllib import request,parse
 from http import cookiejar
 
 from learn.models import *
 from .functions import *
 from .forms import *
 
-import os,random
+import os
 
 # Create your views here.
 def index(request):

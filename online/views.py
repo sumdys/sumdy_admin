@@ -148,16 +148,3 @@ def verify_code(request):
     # 13，将内存中的图片数据返回给客户端，MIME类型为图片png
     return HttpResponse(buf.getvalue(),'image/png')
 
-
-#商品模板管理
-def item_template(request):
-    page_name = '商品模板管理'
-    return render(request,'online/item_template.html',{'page_name':page_name})
-
-# 商品分类管理
-def item_type(request):
-    page_name = '商品分类管理'
-    return render(request,'online/item_type.html',{'page_name':page_name})
-
-
-

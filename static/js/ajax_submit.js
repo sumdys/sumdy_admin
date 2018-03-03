@@ -1,41 +1,44 @@
 /**
  * Created by hesheng on 2018-02-05.
+ * @param string btnSubmit 点击按钮ID
+ * @param string commentForm from表单
  */
-$(document).ready(function(){
-    var valid = $("#commentForm").Validform({
+function ajaxSubmit(returnUrl,btnSubmit,commentForm,boolStr){
+    var valid = $("#"+commentForm).Validform({
         tiptype: 4,
         showAllError: true,
         ajaxPost: true,
         postonce: true,
         callback: function (data) {
-               // console.log(data.msg);return false;
+            // console.log(data.msg);return false;
             var reset = $('button[type=reset]');
             if (data.success) {
                 layer.alert(data.msg, function(){
                     $('input').val('');
-                    window.location.href = "/backstage_menu";
+                    if(boolStr){
+                        window.location.href = returnUrl;
+                    }
+
                 });
             } else {
                 layer.msg(data.msg, {
                     icon: 2
                 });
             }
-            $('#btnDefault').button('reset');
+            $('#'+btnDefault).button('reset');
             layer.closeAll('loading');
         }
     });
 
 
-    //提交表单
-    $('#btnSubmit').click(function () {
+        //提交表单
+    $('#'+btnSubmit).click(function () {
         $(this).button('loading');
         //loading层
         var index = layer.load(1, {
             shade: [0.1, '#fff'] //0.1透明度的白色背景
         });
-
-        var param = $('#commentForm').serializeArray();
-//            console.log(param);return false;
+        var param = $('#'+commentForm).serializeArray();
         valid.config({
             ajaxpost: {
                 data: param
@@ -52,4 +55,4 @@ $(document).ready(function(){
             layer.closeAll('loading'); //关闭加载层
         }
     });
-});
+}
