@@ -11,6 +11,7 @@ def item_template(request):
 # 商品分类管理
 def item_type(request):
     page_name = '商品分类管理'
+    
     return render(request,'item_type.html',{'page_name':page_name})
 
 
