@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block extend_css %}
+<link rel="stylesheet" href="{{ STATIC_PATH }}/css/plugins/dataTables/dataTables.bootstrap.css">
+<link href="{{ STATIC_PATH }}/js/plugins/validform/validform.css" rel="stylesheet">
+{% endblock %}
+{% block title%}{{ page_name }}{% endblock%}
+
+{% block content %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="widget-box float-e-margins">
+                    <div class="widget-title">
+                        <span class="icon"><i class="fa fa-bars"></i></span>
+                        <h4>{{ page_name }}</h4>
+                        <!--<div class="ibox-tools">-->
+                            <!--<a class="collapse-link">-->
+                                <!--<i class="fa fa-chevron-up"></i>-->
+                            <!--</a>-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">-->
+                                <!--<i class="fa fa-wrench"></i>-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu dropdown-user">-->
+                                <!--<li><a href="table_data_tables.html#">选项1</a>-->
+                                <!--</li>-->
+                                <!--<li><a href="table_data_tables.html#">选项2</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<a class="close-link">-->
+                                <!--<i class="fa fa-times"></i>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="widget-content">
+                        <form class="form-horizontal m-t" action="/items/type_add/" method="post" id="commentForm" novalidate="novalidate">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ data.id }}" name="type_id" id="type_id">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">类别名称：</label>
+                                <div class="col-sm-6">
+                                    <input id="name" name="name" value="{{ data.name }}" datatype="s2-200" nullmsg="请输入类别名称" errormsg="类别名称至少2个字符" type="text" class="form-control" >
+                                </div>
+                            </div>
+                            {% ifequal 0 one.pid %}
+                                <div class="control-group">
+                                    <label class="control-label" style="margin-top: 8px;">父类名称</label>
+                                    <div class="controls">
+                                        <select class="form-control" name="parent_id" id="parent_id">
+                                            {% for vo in type.list %}
+                                                <option {% ifequal one.pid. vo.id %}selected{% endifequal %} value="{{ vo.id}}"/>{{ vo.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <input type="hidden" value="{{ request.get.pid }}" name="parent_id"/>
+                            {% endifequal %}
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">类别图标：</label>
+                                <div class="col-sm-6">
+                                    <img src="{{ one.icon }}" style="max-width:250px;" id="imgBox" />
+                                    <label for="image" class="btn btn-success">上传图片</label>
+
+                                    <input name="img" type='hidden' value="{{ one.icon }}" id="img" />
+                                    <input accept="image/*" type="file" name="image" class="hidden" id="image" onchange="preImg(this.id, 'imgBox', 'img')" />
+
+                                </div>
+                            </div>
+                            <!---->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label">说明：</label>-->
+                                <!--<div class="col-sm-8">-->
+                                    <!--<textarea id="ccomment" name="comment" class="form-control" ></textarea>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-3">
+                                    <button class="btn btn-primary" id="btnSubmit" type="button">提交</button>
+                                    <button class="btn btn-default" type="button">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extend_js %}
+<script src="{{ STATIC_PATH }}/js/plugins/validform/validform_v5.3.2_min.js"></script>
+<script src="{{ STATIC_PATH }}/js/ajax_submit.js"></script>
+<script>
+    //提交表单
+    ajaxSubmit('/item_type','btnSubmit','commentForm',false);
+
+
+    function preImg(sourceId, targetId, inputId) {
+        if (typeof FileReader === 'undefined') {
+            alert('Your browser does not support FileReader...');
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var img = document.getElementById(targetId);
+            var ipt = document.getElementById(inputId);
+            img.src = this.result;
+            ipt.value = this.result;
+        };
+        reader.readAsDataURL(document.getElementById(sourceId).files[0]);
+    }
+    $('input[type="file"]').on('change', function () {
+        if (typeof FileReader === 'undefined') {
+            alert('您的浏览器不支持图片预览');
+            $('#imgBox').attr('src', '');
+            $('#img').val('');
+            return;
+        }
+        var size = document.getElementById('image').files[0].size;
+        if (size > 1048576) {
+            layer.alert('上传的商品图片超过了1M，请重新上传', {icon: 2}, function (index) {
+                $('#imgBox').attr('src', '');
+                $('#img').val('');
+                layer.close(index);
+            });
+        }
+    });
+</script>
+{% endblock %}

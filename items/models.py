@@ -17,7 +17,6 @@ class item_type(models.Model):
 
     class Meta:
         app_label = 'items'
-<<<<<<< HEAD
         db_table = 'item_type'
         ordering = ['-id']
 
@@ -58,6 +57,4 @@ class item_unit(models.Model):
     class Meta:
         app_label = 'items'
         db_table = 'item_unit'
-=======
         ordering = ['-id']
->>>>>>> master
