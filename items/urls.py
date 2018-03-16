@@ -11,6 +11,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'template/$',items_views.item_template),
+    url(r'template_add/$',items_views.item_template_add),
     url(r'type/$',items_views.item_type),
     url(r'type_add/$',items_views.item_type_add),
 ]

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from backstage.functions import *
 from minicms.functions import *
 # Create your views here.

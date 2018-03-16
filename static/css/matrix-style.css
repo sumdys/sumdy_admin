@@ -2110,3 +2110,5 @@ div.dataTables_wrapper .ui-widget-header {
     }
 	.quick-actions_homepage .quick-actions li{ min-width:47%;}
 }
+.require{
+	color: red;margin-top: 8px;padding-right: 5px;}

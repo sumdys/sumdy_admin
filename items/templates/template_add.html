@@ -32,32 +32,50 @@
                         <!--</div>-->
                     </div>
                     <div class="widget-content">
-                        <form class="form-horizontal m-t" action="/items/type_add/" method="post" id="commentForm" novalidate="novalidate">
+                        <form class="form-horizontal m-t" action="/items/template_add/" method="post" id="commentForm" novalidate="novalidate">
                             {% csrf_token %}
-                            <input type="hidden" value="{{ data.id }}" name="type_id" id="type_id">
+                            <input type="hidden" value="{{ data.id }}" name="template_id" id="template_id">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">类别名称：</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-2 control-label"><span class="require">*</span>类别名称：</label>
+                                <div class="col-sm-4">
                                     <input id="name" name="name" value="{{ data.name }}" datatype="s2-200" nullmsg="请输入类别名称" errormsg="类别名称至少2个字符" type="text" class="form-control" >
                                 </div>
                             </div>
-                            {% ifequal 0 one.pid %}
-                                <div class="control-group">
-                                    <label class="control-label" style="margin-top: 8px;">父类名称</label>
-                                    <div class="controls">
-                                        <select class="form-control" name="parent_id" id="parent_id">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="require">*</span>计量单位：</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" name="unit_id" id="unit_id">
+                                        {% for vo in type.list %}
+                                        <option {% ifequal one.pid. vo.id %}selected{% endifequal %} value="{{ vo.id}}"/>{{ vo.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><span class="require">*</span>商品类型：</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" name="type_id" id="type_id">
                                             {% for vo in type.list %}
                                                 <option {% ifequal one.pid. vo.id %}selected{% endifequal %} value="{{ vo.id}}"/>{{ vo.title }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
-                                {% else %}
-                                <input type="hidden" value="{{ request.get.pid }}" name="parent_id"/>
-                            {% endifequal %}
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">类别图标：</label>
-                                <div class="col-sm-6">
+                                <label class="col-sm-2 control-label"><span class="require">*</span>商品编码：</label>
+                                <div class="col-sm-4">
+                                    <input id="define_code" name="define_code" value="{{ data.define_code }}" readonly placeholder="该编号由系统自动生成" type="text" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">条形码：</label>
+                                <div class="col-sm-4">
+                                    <input id="barcode" name="barcode" value="{{ data.barcode }}" type="text" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span class="require">*</span>缩略图：</label>
+                                <div class="col-sm-4">
                                     <img src="{{ one.icon }}" style="max-width:250px;" id="imgBox" />
                                     <label for="image" class="btn btn-success">上传图片</label>
 
@@ -68,7 +86,7 @@
                             </div>
                             <!---->
                             <!--<div class="form-group">-->
-                                <!--<label class="col-sm-3 control-label">说明：</label>-->
+                                <!--<label class="col-sm-2 control-label">说明：</label>-->
                                 <!--<div class="col-sm-8">-->
                                     <!--<textarea id="ccomment" name="comment" class="form-control" ></textarea>-->
                                 <!--</div>-->
@@ -93,7 +111,7 @@
 <script src="{{ STATIC_PATH }}/js/ajax_submit.js"></script>
 <script>
     //提交表单
-    ajaxSubmit('/item_type','btnSubmit','commentForm',false);
+    ajaxSubmit('/items/template','btnSubmit','commentForm',false);
 
 
     function preImg(sourceId, targetId, inputId) {
