@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block extend_css %}
+<link rel="stylesheet" href="{{ STATIC_PATH }}/css/plugins/dataTables/dataTables.bootstrap.css">
+<link href="{{ STATIC_PATH }}/js/plugins/validform/validform.css" rel="stylesheet">
+{% endblock %}
+{% block title%}{{ page_name }}{% endblock%}
+
+{% block content %}
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="widget-box float-e-margins">
+                    <div class="widget-title">
+                        <span class="icon"><i class="fa fa-bars"></i></span>
+                        <h4>{{ page_name }}</h4>
+                        <!--<div class="ibox-tools">-->
+                            <!--<a class="collapse-link">-->
+                                <!--<i class="fa fa-chevron-up"></i>-->
+                            <!--</a>-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="table_data_tables.html#">-->
+                                <!--<i class="fa fa-wrench"></i>-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu dropdown-user">-->
+                                <!--<li><a href="table_data_tables.html#">选项1</a>-->
+                                <!--</li>-->
+                                <!--<li><a href="table_data_tables.html#">选项2</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                            <!--<a class="close-link">-->
+                                <!--<i class="fa fa-times"></i>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="widget-content">
+                        <form class="form-horizontal m-t" action="/backstage/role_add/" method="post" id="commentForm" novalidate="novalidate">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ data.id }}" name="role_id" id="role_id">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">角色名：</label>
+                                <div class="col-sm-6">
+                                    <input id="name" name="name" value="{{ data.name }}" datatype="s2-200" nullmsg="请输入角色名" errormsg="角色名至少2个字符" type="text" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">角色类型：</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="type" id="type">
+                                        <!--<option value="">全局</option>-->
+                                        {% for key,value in roleType.items %}
+                                            <option value="{{ key }}" {% ifequal data.type key %} selected {% endifequal %}>{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-3">
+                                    <button class="btn btn-primary" id="btnSubmit" type="button">提交</button>
+                                    <button class="btn btn-default" type="button">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extend_js %}
+<script src="{{ STATIC_PATH }}/js/plugins/validform/validform_v5.3.2_min.js"></script>
+<script src="{{ STATIC_PATH }}/js/ajax_submit.js"></script>
+<script>
+    //提交表单
+    ajaxSubmit('/backstage/role','btnSubmit','commentForm',true);
+</script>
+{% endblock %}

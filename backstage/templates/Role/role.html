@@ -32,50 +32,52 @@
                     </div>
                     <div class="widget-content">
                         <div style="float:left">
-                            <form class="form-inline">
+                            <form class="form-inline" action="/backstage/role" method="GET">
                                 {% include 'per_item.html' %}
                                 <div class="form-group">
                                     <label for="keyword">关键字</label>
-                                    <input type="text" class="form-control" id="keyword" placeholder="角色名">
+                                    <input type="text" class="form-control" id="keyword" name="keyword" value="{{ request.GET.keyword}}" placeholder="角色名">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-primary" id="searchData">Search</button>
                             </form>
+                        </div>
+                         <div class="pull-right">
+                            <a href="/backstage/role_add" class="btn btn-info">添加</a>
                         </div>
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>角色名</th>
+                                    <th>角色类型</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for vo in lists %}
                                 <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
+                                    <td>{{ vo.id }}</td>
+                                    <td>{{ vo.name }}</td>
+                                    <td>
+                                        {% for key,value in roleType.items %}
+                                            {% ifequal vo.type key %}
+                                                {{ value }}
+                                            {% endifequal %}
+                                        {% endfor %}
+                                    </td>
+                                    <td class="center">{{ vo.create_time|date:' Y-m-d H:i:s' }}</td>
+                                    <td class="center">
+                                         <a href="/backstage/role_edit/{{ vo.id }}" class="btn btn-info btn-xs">编辑</a>
+                                                    <a href="/backstage/role_delete/id/{{ vo.id }}" class="btn btn-danger btn-xs">删除</a>
+                                    </td>
                                 </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                         <nav aria-label="Page navigation" class="pages">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
+                            <ul class="pagination pagination-sm">
+                                {{ pageString|safe }}
                             </ul>
                         </nav>
                     </div>
@@ -88,7 +90,11 @@
 {% block extend_js %}
 <script>
     $(document).ready(function(){
-
+            //搜索
+            $('#searchData').click(function(e){
+                var kw = $('#keyword').val();
+                location.search = $.query.set('keyword',kw);
+            });
     });
 </script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

@@ -1626,8 +1626,8 @@ form {
 	border-bottom: 0;
 }
 .form-horizontal .control-label {
-	padding-top: 15px;
-	width: 180px;
+	/*padding-top: 15px;*/
+	/*width: 180px;*/
 }
 .form-horizontal .controls {
 	margin-left: 200px;

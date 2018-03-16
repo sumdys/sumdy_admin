@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Web site basie info
-SITE_NAME = '1号生活-管理后台系统'
+SITE_NAME = '1号生活管理后台系统'
 
 # Web js,css,image dir
 
@@ -42,15 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'items',
+    'backstage',
     'learn',
     'online',
-    'items',
     'orders',
     'passports',
     'payments',
     'supplychains',
     'corsheaders',
-    'backstage',
+
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,11 @@ DATABASES = {
     }
 
 }
-
+DATABASE_ROUTERS = ['minicms.database_router.DatabaseAppsRouter']
+DATABASE_APPS_MAPPING = {
+    'items':'items',
+    'backstage': 'backstage',
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
