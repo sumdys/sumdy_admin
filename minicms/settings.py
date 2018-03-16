@@ -46,10 +46,6 @@ INSTALLED_APPS = [
     'backstage',
     'learn',
     'online',
-<<<<<<< HEAD
-=======
-    'items',
->>>>>>> master
     'orders',
     'passports',
     'payments',
@@ -128,12 +124,6 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
-<<<<<<< HEAD
-=======
-
-}
->>>>>>> master
-
 }
 DATABASE_ROUTERS = ['minicms.database_router.DatabaseAppsRouter']
 DATABASE_APPS_MAPPING = {
