@@ -165,7 +165,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 CORS_ALLOW_CREDENTIALS = True
@@ -209,5 +209,6 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static').replace('\\','/')
 
 STATIC_PATH = 'http://minicms.sumdy.deve'
 
+IMAGES_PATH = 'http://images.sumdy.deve'
 
-PAGE = 2
+PAGE = 10

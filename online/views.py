@@ -79,6 +79,7 @@ def login_ajax_check(request):
         for user in users:
             passwordD = user.password
             name = user.name
+            userId = user.id
             break
         vCode = vCode.upper()
         # print(name)
@@ -86,7 +87,7 @@ def login_ajax_check(request):
             # 保存用户的登录状态
             request.session['isLogin'] = True
             request.session['username'] = username
-            request.session['user_id'] = users.id
+            request.session['user_id'] = userId
             return JsonResponse({'code':0,'msg':'ok'})
         elif username!=name or password != passwordD:
             return JsonResponse({'code':400,'msg':'用户名或密码不正确'})

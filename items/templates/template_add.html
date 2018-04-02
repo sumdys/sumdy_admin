@@ -45,7 +45,7 @@
                                 <label class="col-sm-2 control-label"><span class="require">*</span>计量单位：</label>
                                 <div class="col-sm-4">
                                     <select class="form-control" name="unit_id" id="unit_id">
-                                        {% for vo in type.list %}
+                                        {% for vo in itemUnit %}
                                         <option {% ifequal one.pid. vo.id %}selected{% endifequal %} value="{{ vo.id}}"/>{{ vo.title }}</option>
                                         {% endfor %}
                                     </select>

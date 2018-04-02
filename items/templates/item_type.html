@@ -35,10 +35,10 @@
                             <form class="form-inline">
                                 {% include 'per_item.html' %}
                                 <div class="form-group">
-                                    <label for="exampleInputName2">商品父类</label>
-                                    <input type="text" class="form-control" id="exampleInputName2" placeholder="商品父类">
+                                    <label for="keyword">商品父类</label>
+                                    <input type="text" class="form-control" id="keyword" value="{{ request.GET.keyword }}" placeholder="商品父类">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="button" class="btn btn-primary" id="searchData">Search</button>
                             </form>
                         </div>
                         <div class="pull-right">
@@ -55,33 +55,43 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {% for vo in data %}
                                 <tr class="gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0
+                                    <td style="width:20%;">{{ vo.title }}</td>
+                                    <td><img src="{{ vo.icon }}" width="10%"/> </td>
+                                    <td>{{ vo.state }}</td>
+                                    <td class="center">{{ vo.create_time|date:'Y-m-d H:i:s' }}</td>
+                                    <td class="center">
+                                        <a href="/items/type_edit/{{ vo.id }}" class="btn btn-info btn-xs" type="button">编辑</a>
+                                        {% ifequal vo.status 0%}
+                                        <button class="btn btn-danger btn-xs deleteData" type="button" data-id="{{ vo.id }}">删除</button>
+                                        {% else %}
+                                        <button class="btn btn-primary btn-xs restData" data-id="{{ vo.id }}" type="button">恢复</button>
+                                        {% endifequal %}
                                     </td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
                                 </tr>
+                            {% for v in vo.subType %}
+                                <tr class="gradeX">
+                                    <td style="padding-left: 40px;">{{ v.title }}</td>
+                                    <td style="width: 50%;"><img src="{{ v.icon }}" width="10%"/> </td>
+                                    <td>{{ v.state }}</td>
+                                    <td class="center">{{ v.create_time|date:'Y-m-d H:i:s' }}</td>
+                                    <td class="center">
+                                        <a href="/items/type_edit/{{ v.id }}" class="btn btn-info btn-xs" type="button">编辑</a>
+                                        {% ifequal v.status 0%}
+                                        <button class="btn btn-danger btn-xs deleteData" data-id="{{ v.id }}" type="button">删除</button>
+                                        {% else %}
+                                        <button class="btn btn-primary btn-xs restData" data-id="{{ v.id }}" type="button">恢复</button>
+                                        {% endifequal %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% endfor %}
                             </tbody>
                         </table>
-                        <nav aria-label="Page navigation" class="pages">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
+                         <nav aria-label="Page navigation" class="pages">
+                            <ul class="pagination pagination-sm">
+                                {{ pageString|safe }}
                             </ul>
                         </nav>
                     </div>
@@ -94,8 +104,23 @@
 {% block extend_js %}
 <script>
     $(document).ready(function(){
-
+        //搜索
+        $('#searchData').click(function(e){
+            var kw = $('#keyword').val();
+            location.search = $.query.set('keyword',kw);
+        });
+        //删除
+        $('.deleteData').click(function(){
+            var self = $(this);
+            var id = self.data('id');
+            layer_really('确定删除商品分类吗？','/items/typeStatus/'+id+'/3');
+        });
+        //恢复
+        $('.restData').click(function(){
+            var self = $(this);
+            var id = self.data('id');
+            layer_really('确定恢复商品分类吗？','/items/typeStatus/'+id+'/0');
+        });
     });
 </script>
-<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
 {% endblock %}

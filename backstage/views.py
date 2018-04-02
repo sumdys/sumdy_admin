@@ -65,8 +65,12 @@ def menu_info(request,id):
 
 # 后台管理角色
 def role(request):
+    where_str = {}
+    keyword = request.GET.get('keyword', '')
+    if keyword:
+        where_str['name__contains'] =keyword
     m = Role.objects.using('backstage')
-    data=resultContent(m,request)
+    data=resultContent(m,where_str,request)
     # 分页
     pageString = pages(request,data['pagination']['allCounts'],data['pagination']['page'],data['pagination']['pageSize'])
     page_name = '角色管理'
